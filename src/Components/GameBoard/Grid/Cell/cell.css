@@ -1,0 +1,20 @@
+.cell{
+
+    position: absolute;
+    margin: 0;
+}
+
+
+.blankCell{
+
+    background: #64b88b;
+}  
+    
+.fruitCell{
+        background-color: black;
+}
+    
+.snakeCell{
+    
+        background-color: black;
+}
