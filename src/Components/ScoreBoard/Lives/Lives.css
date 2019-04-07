@@ -1,0 +1,19 @@
+.lives {
+    display: flex;
+    position: absolute;
+}
+
+.label {
+    font-size: 20px;
+}
+
+.hearts {
+    padding-top: 4px;
+    padding-left: 10px;
+}
+
+.heart {
+    padding-right: 5px;
+    width: 20px;
+    height: 20px;
+}

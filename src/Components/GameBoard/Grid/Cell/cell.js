@@ -1,30 +1,34 @@
 import React from 'react';
 import { CELL_MARGIN_PX, CELL_SIZE_PX, CELL_TYPES } from '../../../../consts/const';
 import './cell.css'
+import { connect } from 'react-redux';
 
 export class Cell extends React.Component {
 
 
     render() {
-        const { x, y, cellType, isSnkeHead } = this.props;
+        const { x, y, cellType} = this.props;
 
         let cellClassName="cell ";
-        cellClassName +="blankCell";
- /*       switch (cellType) {
+        cellClassName +="blankCell ";
+        switch (cellType) {
             case CELL_TYPES.BLANK: {
-                cellClassName = "blankCell";
+                cellClassName="cell ";
+                cellClassName += "blankCell";
                 break;
             }
             case CELL_TYPES.SNAKE: {
-                cellClassName = "snakeCell";
+                cellClassName="cell ";
+                cellClassName += "snakeCell";
                 break;
             }
             case CELL_TYPES.FRUIT: {
-                cellClassName = "fruitCell";
+                cellClassName="cell ";
+                cellClassName += "fruitCell";
                 break;
             }
             default:
-        }*/
+        }
 
 
         return (
@@ -41,4 +45,16 @@ export class Cell extends React.Component {
     }
 }
 
-export default Cell;
+
+
+function mapStateToProps(state, ownProps) {
+const {y,x} = ownProps;
+
+    return {
+        cellType : state.game.getIn(['cells', y,x ]),
+    };
+}
+
+export default connect(
+    mapStateToProps,{}
+)(Cell);

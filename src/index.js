@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import configureStore from './Lib/store';
 import Root from './Root/Root';
-import App from './App'
 import * as serviceWorker from './serviceWorker';
 
 const store = configureStore();

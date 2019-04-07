@@ -1,5 +1,4 @@
 .cell{
-
     position: absolute;
     margin: 0;
 }
@@ -7,11 +6,11 @@
 
 .blankCell{
 
-    background: #64b88b;
+    background-color: #19d863;
 }  
     
 .fruitCell{
-        background-color: black;
+        background-color: red;
 }
     
 .snakeCell{

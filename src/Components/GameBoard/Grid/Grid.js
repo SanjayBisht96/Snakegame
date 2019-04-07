@@ -1,7 +1,8 @@
 import React from 'react'
 import {FIELD_SIZE, CELL_SIZE_PX, CELL_MARGIN_PX} from '../../../consts/const'
-import style from "./Grid.css";
+import "./Grid.css";
 import Cell from './Cell/cell';
+import { connect } from 'react-redux';
 
 export class Grid extends React.Component{
 
@@ -29,4 +30,16 @@ export class Grid extends React.Component{
 	}
 }
 
-export default Grid;
+
+function mapStateToProps(state){
+
+	return{
+		cells : state.game.get("cells")
+	}
+}
+
+
+export default connect(
+    mapStateToProps,
+    {},
+)(Grid);

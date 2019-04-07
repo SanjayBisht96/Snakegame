@@ -1,0 +1,42 @@
+.screen {
+    background-color:rgb(76, 91, 102);
+    margin-left: 25px;
+    margin-top: 25px;
+    opacity: 0.8;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 442px;
+    height: 442px;
+}
+
+.label_overlay {
+    font-size: 30px;
+    padding-left: 180px;
+    padding-top: 180px;
+    font-weight: bold;
+    color: rgba(#000, 0.6);
+    text-shadow: 0 0 5px rgba(#293742, 0.5);
+    position: absolute;
+}
+
+.blink {
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0.2;
+    }
+}
+
+@keyframes screenAppear {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

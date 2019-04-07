@@ -1,0 +1,6 @@
+.gameboard{
+    position: relative;
+    float: right;
+    height: 100%;
+    width: 442px;
+}
