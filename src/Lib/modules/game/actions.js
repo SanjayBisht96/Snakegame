@@ -175,10 +175,9 @@ export function gameTick() {
         const gameOver = game.get('gameOver');
         const pause = game.get('pause');
 
-        if (gameOver || pause) {
+        if (gameOver || pause){ 
             return;
         }
-
         const direction = game.get('direction');
         const score = game.get('score');
         const level = game.get('level');

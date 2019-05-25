@@ -7,24 +7,13 @@ import { DIRECTION } from '../../consts/const';
 import { gameTick, pauseGame, restartGame, setDirection } from '../../Lib/modules/game/actions';
 
 
-const { key } = window;
-
 export class GameBoard extends React.Component{
     
 
     gameTickTimeoutId = null;
 
 
-    doGameTick = ({ skipTick = false, startReadiness = false } = {}) => {
-        if (startReadiness) {
-            this.setState({
-                showWaitCircle: true,
-            });
-        } else if (this.state.showWaitCircle) {
-            this.setState({
-                showWaitCircle: false,
-            });
-        }
+    doGameTick = ({ startReadiness = false } = {}) => {
 
         if (this.gameTickTimeoutId) {
             clearTimeout(this.gameTickTimeoutId);
@@ -32,7 +21,7 @@ export class GameBoard extends React.Component{
 
         const { level } = this.props;
 
-        let tickTimeout = 120 - level * (5 - level / 10);
+        let tickTimeout = 200 - level * (6 - level / 10);
 
         // If we need time to prepare
         if (startReadiness) {
@@ -41,7 +30,7 @@ export class GameBoard extends React.Component{
 
         this.gameTickTimeoutId = setTimeout(this.doGameTick, tickTimeout);
 
-        if (skipTick || startReadiness) {
+        if (startReadiness) {
             return;
         }
 
@@ -56,7 +45,7 @@ export class GameBoard extends React.Component{
     };
 
     resumeGame = () => {
-        this.doGameTick({ skipTick: true });
+        this.doGameTick();
     };
 
     setDirection = direction => {
@@ -66,76 +55,75 @@ export class GameBoard extends React.Component{
         }
     };
 
-    unBindKeys = () => {
-        key.unbind('top');
-        key.unbind('right');
-        key.unbind('bottom');
-        key.unbind('left');
-        key.unbind('space');
+    removeKeys = () => {
+        document.removeEventListener('keydown');
     };
     
-    bindKeys = () => {
-            key('up', () => {
+    addKeys = () => {
+            document.addEventListener('keydown', (e) => {
+                switch(e.keyCode){
+                case 38:{ 
                 this.setDirection(DIRECTION.TOP);
-            });
-    
-            key('right', () => {
-                this.setDirection(DIRECTION.RIGHT);
-            });
-    
-            key('down', () => {
-                this.setDirection(DIRECTION.BOTTOM);
-            });
-    
-            key('left', () => {
-                this.setDirection(DIRECTION.LEFT);
-            });
-    
-            key('space', () => {
-                const { level, restartGame, pauseGame, pause, gameOver } = this.props;
-                if (level === null || gameOver) {
-                    restartGame();
-                } else {
-                    pauseGame(!pause);
+                break;
                 }
+                case 39:{ 
+                    this.setDirection(DIRECTION.RIGHT);
+                    break;
+                }
+                case 40:{ 
+                    this.setDirection(DIRECTION.BOTTOM);
+                    break;
+                }
+                case 37:{ 
+                    this.setDirection(DIRECTION.LEFT);
+                    break;
+                }
+                case 32:{ 
+                    const { level, restartGame, pauseGame, pause, gameOver } = this.props;
+                    if (level === null || gameOver) {
+                        restartGame();
+                    } else {
+                        pauseGame(!pause);
+                    }
+                    break;
+                }    
+            default:
+            }   
             });
-        
+    };
 
-    }
-    
     componentDidMount() {
-        this.bindKeys();
+        this.addKeys();
     } 
 
     componentWillUnmount() {
         this.stopGame();
-        this.unBindKeys();
+        this.removeKeys();
     }
 
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(prevProps) {
         if (
-            // If game beginning
+            //start game
             (!prevProps.level && this.props.level) ||
-            // Or restart after game over
-            // Или рестарт после гамовера
             (prevProps.gameOver && !this.props.gameOver)
         ) {
             this.doGameTick({ startReadiness: true });
         }
-
+        //On crash
         if (this.props.lives < prevProps.lives && !this.props.gameOver) {
             this.doGameTick({ startReadiness: true });
         }
-
+        //On Gameover
         if (!prevProps.gameOver && this.props.gameOver) {
             this.stopGame();
         }
-
+        //On pause
         if (!prevProps.pause && this.props.pause) {
+
             this.stopGame();
         }
-
+        //On game is resumed
         if (prevProps.pause && !this.props.pause) {
             this.resumeGame();
         }
@@ -153,7 +141,7 @@ export class GameBoard extends React.Component{
                         <div>
                             Press
                             <br />
-                            &lt; SPACE &gt;
+                             SPACE 
                             <br />
                             to start
                         </div>
@@ -165,8 +153,6 @@ export class GameBoard extends React.Component{
 	 	);
 	 }
 }
-
-//export default GameBoard;
 
 
 function mapStateToProps(state, ownProps) {
